@@ -12,6 +12,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 #find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
 ##      set (QT_USE_QTOPENGL TRUE))
 #include(${QT_USE_FILE})
+find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
 
 if(VTK_QT_VERSION VERSION_GREATER "4")
     # Instruct CMake to run moc automatically when needed.
@@ -30,11 +31,10 @@ message("sources ${source}" )
 
 if(VTK_QT_VERSION VERSION_GREATER "4") # when on qt5
     add_library(${PROJECT_NAME} STATIC ${source} ${header})
-    qt5_use_modules(${PROJECT_NAME} Widgets)
-#    target_link_libraries(${CMAKE_PROJECT_NAME )
+	find_package(Qt5Widgets REQUIRED)
+    # qt5_use_modules(${PROJECT_NAME} Widgets)
+	target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES}  Qt5::Widgets)
 else() # we are on qt4
     add_library(${PROJECT_NAME} STATIC ${source} ${header})
     target_link_libraries(${PROJECT_NAME} ${QT_LIBRARIES} )
 endif()
-
-
